@@ -1,67 +1,48 @@
-# 这是一个示例 Python 脚本。
+# 生成测试报告
+import smtplib
+from HTMLTestRunner import  HTMLTestRunner
+import  unittest
+import zmail
+# 加载所有测试用例
+tests = unittest.defaultTestLoader.discover(r"D:\python学习代码\13day\代码\day13",pattern="Test*.py")
 
-# 按 Shift+F10 执行或将其替换为您的代码。
-# 按 双击 Shift 在所有地方搜索类、文件、工具窗口、操作和设置。
+# 运行器来执行用例，并生成测试报告
+runner = HTMLTestRunner.HTMLTestRunner(
+    title = "计算器的测试报告",
+    description="这是加法测试报告",
+    verbosity=1,
+    stream= open(file="计算器.html",mode="w+",encoding="utf-8")
+)
 
-''''''
-def print_hi(name):
-    # 在下面的代码行中使用断点来调试脚本。
-    print(f'Hi, {name}')  # 按 Ctrl+F8 切换断点。
+# 3.运行
+runner.run(tests)
 
-''''''
-# 按间距中的绿色按钮以运行脚本。
-if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
-print("======================================")
-print("日期 服装名称 价格/件 库存数量 销售量/每日")
-print("1号	羽绒服  253.6    500	     10")
-print("2号	牛仔裤	86.3    600	     60")
-print("3号	风衣	    96.8    335	     43")
-print("4号	皮草    135.9    855	     63")
-print("5号	T血	    65.8    632	     63")
-print("6号  衬衫     49.3    562      120")
-print("7号	牛仔裤	86.3	600	     72")
-print("8号	羽绒服	253.6	500	     69")
-print("9号	牛仔裤	86.3	600	     35")
-print("10号	羽绒服	253.6	500   	 140")
-print("11号	牛仔裤	86.3	600	     90")
-print("12号	皮草	   135.9	855	     24")
-print("13号	T血	    65.8	632	     45")
-print("14号	风衣	    96.8	335   	 25")
-print("15号	牛仔裤	86.3	600	     60")
-print("16号	T血	    65.8	632	     129")
-print("17号	羽绒服	253.6	500	     10")
-print("18号	风衣	    96.8	335	     43")
-print("19号	T血	    65.8	632	     63")
-print("20号	牛仔裤	86.3	600	     60")
-print("21号	皮草	    135.9	855	     63")
-print("22号	风衣	    96.8	335	     60")
-print("23号	T血	    65.8	632	     58")
-print("24号	牛仔裤	86.3	600	     140")
-print("25号	T血	    65.8	632	     48")
-print("26号	风衣	    96.8	335	     43")
-print("27号	皮草	    135.9	855	     57")
-print("28号	羽绒服	253.6	500	     10")
-print("29号	T血	    65.8	632	     63")
-print("30号	风衣	    96.8	335	     78")
-num=round((2536+5178+4162.4+8561.7+4145.4+5916+6213.6+17498.4+3020.5+35504+7767+3261.6+2961+2420+5178+8488.2+2536+4162.4+4145.4+5178+8561.7+5808+3816.4+12082+3158.4+4162.4+7746.3+2536+4145.4+7550.4))
-print("总销售额：",num)
-num1=round((10+60+43+63+63+120+72+69+35+140+90+24+45+25+60+129+10+43+63+60+63+60+58+140+48+43+57+10+63+78)/30)
-print("每月平均销售数量:",num1)
-T=round((431/1844*100),1)
-Shirt=round((69/1844*100),1)
-fengyi=round((359/1844*100),1)
-niu=round((428/1844*100),1)
-picao=round((306/1844*100),1)
-yurongfu=round((251/1844*100),1)
-print("T恤每个种类月销售量占比",T,"%")
-print("衬衫每个种类月销售量占比",Shirt,"%")
-print("风衣每个种类月销售量占比",fengyi,"%")
-print("牛仔裤每个种类月销售量占比",niu,"%")
-print("皮草每个种类月销售量占比",picao,"%")
-print("羽绒服每个种类月销售量占比",yurongfu,"%")
+# 4.邮件发送代码  任务1：使用代码发送邮件，并把测试报告当成附件发送给我。
+# 温馨：用户名，密码：smtp授权码
+
+
+file = open("计算器.html","r",encoding="utf-8")
+msg = file.read()
+
+# 邮件内容
+msg_content = {
+    "subject":"范鑫明的测试报告",
+    "content_text": msg,
+    "attachments": "D:\python学习代码\13day\代码\day13\计算器.html"
+}
+
+# 收件人
+receivers = ["2431320433@qq.com"]
+
+# 发件人
+sender = {"username":"2532900977@qq.com","password":"lnxevvadhzadeaif"}
+
+# 发送邮件
+server = zmail.server(sender['username'],sender['password'])  #登录邮箱
+server.send_mail(receivers,msg_content)
+
+print("邮件发送成功")
 
 
 
